@@ -1,0 +1,15 @@
+{
+  "name": "crhg/irkit-client",
+  "description": "client library for IRKit",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Manabu Matsui ",
+      "email": "manabu.matsui@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "6.3.0"
+  }
+}
