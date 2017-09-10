@@ -67,7 +67,7 @@ class Config
             throw new \Exception('command not found: accessory='.$accessory.', command='.$command);
         }
 
-        $command_object = new Command($host, $accessory_config['command'][$commaand]);
+        $command_object = new Command($host, $accessory_config['command'][$command]);
 
         return $command_object;
     }
