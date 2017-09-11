@@ -6,6 +6,8 @@ php client library for irkit api
 ## Usage
 
 ```php
+use Crhg\IRKit\Client;
+
 $client = new Clinet($config);
 $client->send('light', 'on');
 ```
@@ -34,3 +36,30 @@ $client->send('light', 'on');
 | accessory.\<accessory name\>.host | string | specifity host which accssesory belongs to |
 | accessory.\<accessory name\>.command | array | key-value pair of command name and command data |
 | accessory.\<accessory name\>.command.\<command name\> | array | command data. converted to json and posted to IRKit's messages API | 
+
+### Example
+```php
+$config = [
+    'host' => [
+        'host1' => [
+            'uri' => 'http://10.0.1.2',
+            'http_option' => [
+                'version' => 1.0,
+                'headers' => ['X-Requested-With' => 'curl',],
+            ],
+        ],
+    ],
+    'accessory' => [
+        'light' => [
+            'host' => 'host1',
+            'command' => [
+                'on' => [
+                    'format' => 'us',
+                    'freq' => 38,
+                    'data' => [8858, 4574, 554, 577,],
+                ],
+            ],
+        ],
+    ],
+];
+```
