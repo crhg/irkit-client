@@ -12,6 +12,17 @@ $client->send('light', 'on');
 
 ## Install
 
+```json
+{
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/crhg/irkit-client" }
+    ],
+    "require": {
+        "crhg/irkit-client": "master@dev"
+    },
+}
+```
+
 ## Configuration
 
 | key    | type   | description  |
