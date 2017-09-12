@@ -32,6 +32,7 @@ $client->send('light', 'on');
 | host | array | key-value pair of host name and host definition |
 | host.\<host name\>.uri | string | uri of IRKit server |
 | host.\<host name\>.http_option | array | http option. passed to GazzleHttp client |
+| host.\<host name\>.retry | int | retry count |
 | accessory | array | key-value pair of accessory name and its definition |
 | accessory.\<accessory name\>.host | string | specifity host which accssesory belongs to |
 | accessory.\<accessory name\>.command | array | key-value pair of command name and command data |
@@ -47,6 +48,7 @@ $config = [
                 'version' => 1.0,
                 'headers' => ['X-Requested-With' => 'curl',],
             ],
+            'retry' => 3,
         ],
     ],
     'accessory' => [

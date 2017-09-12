@@ -13,11 +13,25 @@ class Host
 {
     protected $uri;
     protected $http_option;
+    protected $retry;
 
-    public function __construct($uri, $http_option)
+    public function __construct($name, Config $config)
     {
-        $this->uri = $uri;
-        $this->http_option = $http_option;
+        $c = $config->getConfig();
+
+        if (!isset($c['host'][$name])) {
+            throw new \Exception('config not found: host='.$name);
+        }
+
+        $host_config = $c['host'][$name];
+
+        if (!isset($host_config['uri'])) {
+            throw new \Exception('no uri: host='.$name);
+        }
+
+        $this->uri = $host_config['uri'];
+        $this->http_option = $host_config['http_option'] ?? [];
+        $this->retry = $host_config['retry'] ?? 1;
     }
 
     public function getUri()
@@ -30,11 +44,14 @@ class Host
         return $this->http_option;
     }
 
+    public function getRetry()
+    {
+        return $this->retry;
+    }
+
     public function getHttpClient()
     {
         $http_client = new \GuzzleHttp\Client($this->getHttpOption());
         return $http_client;
     }
-
-
 }
