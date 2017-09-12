@@ -27,18 +27,20 @@ class Command
      * @param $config
      * @throws \Exception
      */
-    public function __construct($accessory_name, $command_name, $config)
+    public function __construct($accessory_name, $command_name, Config $config)
     {
-        if (!isset($config['accessory'][$accessory_name]['host'])) {
+        $c = $config->getConfig();
+
+        if (!isset($c['accessory'][$accessory_name]['host'])) {
             throw new \Exception("accessory not found: $accessory_name");
         }
-        $host_name = $config['accessory'][$accessory_name]['host'];
+        $host_name = $c['accessory'][$accessory_name]['host'];
         $this->host = new Host($host_name, $config);
 
-        if (!isset($config['accessory'][$accessory_name]['command'][$command_name])) {
+        if (!isset($c['accessory'][$accessory_name]['command'][$command_name])) {
             throw new \Exception("command not found: $accessory_name, $command_name");
         }
-        $this->data = $config['accessory'][$accessory_name]['command'][$command_name];
+        $this->data = $c['accessory'][$accessory_name]['command'][$command_name];
     }
 
     /**
