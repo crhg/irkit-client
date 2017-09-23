@@ -66,4 +66,14 @@ class Client
         }
         throw new \Exception('retry count exceeded');
     }
+
+    public function messages($host_name)
+    {
+        $host = new Host($host_name, $this->config);
+        $http_client = $host->getHttpClient();
+        $uri = $host->getUri().'/messages';
+
+        $response = $http_client->get($uri);
+        return $response;
+    }
 }
