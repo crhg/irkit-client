@@ -29,5 +29,25 @@ class Config
         return $this->config;
     }
 
+    public function get($key, $default = null)
+    {
+        try {
+            return $this->getOrFail($key);
+        } catch (\Exception $e) {
+            return $default;
+        }
+    }
+
+    public function getOrFail($key) {
+        $result = $this->config;
+        foreach (explode('.', $key) as $k) {
+            if (!array_key_exists($k, $result)) {
+                throw new \Exception("key not found: $key");
+            }
+            $result = $result[$k];
+        }
+        return $result;
+    }
+
 
 }

@@ -9,19 +9,29 @@
 namespace Crhg\IRKit;
 
 use GuzzleHttp\Exception\RequestException;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
 class Client
 {
+    use LoggerAwareTrait;
+
     /** @var Config */
     protected $config;
 
     /**
      * Client constructor.
-     * @param array $config
+     * @param array $config_array
      */
-    public function __construct(array $config)
+    public function __construct(array $config_array)
     {
-        $this->config = new Config($config);
+        $this->config = new Config($config_array);
+
+        $logger = $this->config->get('logger');
+        if (is_null($logger)) {
+            $logger = new NullLogger();
+        }
+        $this->setLogger($logger);
     }
 
     /**
@@ -48,8 +58,9 @@ class Client
                 if ($response->getStatusCode() == 200) {
                     return;
                 }
+                $this->logger->warning("status != 200", ['response' => $response]);
             } catch (RequestException $e) {
-                // retry
+                $this->logger->warning("Request Exception", ['e' => $e]);
             }
             $retry--;
         }

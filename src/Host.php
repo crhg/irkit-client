@@ -11,27 +11,24 @@ namespace Crhg\IRKit;
 
 class Host
 {
+    const DEFAULT_RETRY = 1;
+
     protected $uri;
     protected $http_option;
-    protected $retry;
+    protected $retry; // retry count
 
     public function __construct($name, Config $config)
     {
-        $c = $config->getConfig();
-
-        if (!isset($c['host'][$name])) {
-            throw new \Exception('config not found: host='.$name);
-        }
-
-        $host_config = $c['host'][$name];
+        $host_config = $config->getOrFail("host.$name");
+        ['host'][$name];
 
         if (!isset($host_config['uri'])) {
             throw new \Exception('no uri: host='.$name);
         }
 
-        $this->uri = $host_config['uri'];
-        $this->http_option = $host_config['http_option'] ?? [];
-        $this->retry = $host_config['retry'] ?? 1;
+        $this->uri = $config->getOrFail("host.$name.uri");
+        $this->http_option = $config->get("host.$name.http_option", []);
+        $this->retry = $config->get("host.$name.retry", self::DEFAULT_RETRY);
     }
 
     public function getUri()

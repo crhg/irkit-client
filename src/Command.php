@@ -22,25 +22,18 @@ class Command
 
     /**
      * Command constructor.
-     * @param $accessory_name
-     * @param $command_name
-     * @param $config
-     * @throws \Exception
+     *
+     * @param string $accessory_name
+     * @param string $command_name
+     * @param Config $config
      */
     public function __construct($accessory_name, $command_name, Config $config)
     {
-        $c = $config->getConfig();
-
-        if (!isset($c['accessory'][$accessory_name]['host'])) {
-            throw new \Exception("accessory not found: $accessory_name");
-        }
-        $host_name = $c['accessory'][$accessory_name]['host'];
+        $host_name = $config->getOrFail("accessory.$accessory_name.host");
         $this->host = new Host($host_name, $config);
 
-        if (!isset($c['accessory'][$accessory_name]['command'][$command_name])) {
-            throw new \Exception("command not found: $accessory_name, $command_name");
-        }
-        $this->data = $c['accessory'][$accessory_name]['command'][$command_name];
+        $data = $config->getOrFail("accessory.$accessory_name.command.$command_name");
+        $this->data = $data;
     }
 
     /**
