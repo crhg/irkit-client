@@ -76,4 +76,19 @@ class Client
         $response = $http_client->get($uri);
         return $response;
     }
+
+    /**
+     *
+     * @param $accessory_name
+     * @return bool
+     */
+    public function isExistsAccessory($accessory_name)
+    {
+        $accessory_config = $this->config->get('accessory.'.$accessory_name);
+        if (is_null($accessory_config)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
